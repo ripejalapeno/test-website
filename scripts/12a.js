@@ -1,3 +1,11 @@
+let messages = 0;
+
+const savedMessages = JSON.parse(localStorage.getItem('messages'));
+if (savedMessages) {
+  messages = savedMessages;
+}
+
+
 const add = () => {
   console.log(2+3);
 }
@@ -41,7 +49,7 @@ function updateCart() {
   }, 2000)
 }
 
-let messages = 0;
+
 function titleStrobe() {
   setInterval(() => {
     if (document.title === 'App' && messages > 0) {
@@ -52,10 +60,25 @@ function titleStrobe() {
   }, 2000);
 }
 
+const messageNotif = document.querySelector('.js-message-notif');
+
+function notifStrobe() {
+  setInterval(() => {
+    if (messageNotif.innerText === '' && messages > 0) {
+      messageNotif.innerText = `You have (${messages}) new messages`;
+    } else {
+      messageNotif.innerText = '';
+    }
+  }, 2000);
+}
+
+notifStrobe();
+
 const addButton = document.querySelector('.js-add-button');
 
 addButton.addEventListener('click', () => {
   messages++;
+  localStorage.setItem('messages', JSON.stringify(messages));
 })
 
 const removeButton = document.querySelector('.js-remove-button');
